@@ -1,33 +1,55 @@
-﻿namespace OOPPrinciplesDemo
+﻿
+namespace OOPPrinciplesDemo
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
-            //Här ska vi skapa ett objekt av typ of bankAccout.
+            // Skapar ett vanligt bankkonto.
             BankAccount account = new BankAccount("Ali", 5000);
-            account.ShowBalance();
+
+            // Skapar ett sparkonto.
+            SavingsAccount savingsAccount = new SavingsAccount("Sara", 10000);
+
+            // Anropar samma metod på olika objekt.
+            account.ShowAccountType();
+            savingsAccount.ShowAccountType();
         }
     }
-    //Här vill jag skapa en klass.
 
+    // Basklass som representerar ett bankkonto.
     public class BankAccount
-    //Namnt på personen som äger kontot.
     {
         public string AccountHolder;
         public double Balance;
-        //konstruktor som används för att skapa ett nytt bankkonto.
+
+        // Konstruktor som används för att skapa ett bankkonto.
         public BankAccount(string accountHolder, double balance)
         {
             AccountHolder = accountHolder;
             Balance = balance;
         }
-        // Metod som visar kontoinnehavare och aktuellt saldo.
-        public void ShowBalance()
+
+        // Virtual gör det möjligt för en subklass att ändra beteendet.
+        public virtual void ShowAccountType()
         {
-            Console.WriteLine($"Account holder: {AccountHolder}");
-            Console.WriteLine($"Balance: {Balance} kr");
+            Console.WriteLine($"{AccountHolder} har ett vanligt bankkonto.");
         }
     }
-}  
+
+    // SavingsAccount ärver från BankAccount.
+    public class SavingsAccount : BankAccount
+    {
+        // Konstruktor som använder basklassens konstruktor.
+        public SavingsAccount(string accountHolder, double balance)
+            : base(accountHolder, balance)
+        {
+        }
+
+        // Override ändrar beteendet från basklassen.
+        public override void ShowAccountType()
+        {
+            Console.WriteLine($"{AccountHolder} har ett sparkonto.");
+        }
+    }
+}
